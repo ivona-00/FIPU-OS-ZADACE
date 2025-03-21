@@ -1,0 +1,5 @@
+pwd - provjera trenutnog radnog direktorija
+ls - izlistavanje sadrzaja trenutnog direktorija
+mkdir vjezba1 - izrada novog direktorija && cd vjezba1
+touch README.md
+cd .. - vracanje u pocetni direktorij

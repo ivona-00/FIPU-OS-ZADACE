@@ -1,0 +1,5 @@
+mkdir vjezba4 && cd vjezba4 && mkdir subfolder
+touch "$HOSTNAME"
+mv "$HOSTNAME" "$USER"
+mv "$USER" subfolder
+rm /mnt/c/users/iwona/onedrive/documents/github/FIPU-OS-ZADACE/os1/vjezba4/subfolder/"$USER"

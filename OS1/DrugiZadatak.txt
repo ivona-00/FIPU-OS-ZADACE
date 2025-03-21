@@ -1,0 +1,5 @@
+mkdir vjezba2 && cd vjezba2 && touch file.txt
+cp file.txt file_copy.txt
+ls
+rm file.txt && cd ..
+rmdir vjezba2 // nemoze se izbrisati zato jer direktorij ima file_copy.txt tj. nije prazan
