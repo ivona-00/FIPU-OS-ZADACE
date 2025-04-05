@@ -1,0 +1,17 @@
+Zadatak 1
+    - mkdir OS_Vjezba2/data && mkdir OS_Vjezba2/backup
+    -touch data/script.js && touch data/style.css && touch data/.env
+    -echo 'console.log("Hello world!")'>data/script.js && echo "body { background-color: #f0f0f0; }" > data/style.css && 
+        echo "VJEZBE=OS" > data/.env
+
+Zadatak 2
+    - cp -vr data/ backup/ <--- staviti zarez izmedu data/ i backup/
+    - cd data && ls -las ../backup
+Zadatak 3
+    - rm -rv data/!(.env) && ls -v data/ <--- !(.env)= sve osim
+    - cp -rvn backup/* data/ 
+    - ls -Atrl data/
+Zadatak 4
+    -ls -laS
+    -ls -lSh
+    -ls -latR --color
