@@ -1,0 +1,2 @@
+touch OS3.md && touch OS3.pdf && mkdir screenshots
+cd screenshots && touch bash.png && touch nano.png && touch vim.png  
