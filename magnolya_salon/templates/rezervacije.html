@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Rezervacije</h2>
+
+<form class="row g-3 mb-4" method="get" action="{{ url_for('lista_rezervacija') }}">
+    <div class="col-auto">
+        <input class="form-control" name="djelatnik" placeholder="Filtriraj po djelatniku" value="{{ q_ime }}">
+    </div>
+    <div class="col-auto"><button class="btn btn-outline-secondary">Filtriraj</button></div>
+    <div class="col-auto"><a class="btn btn-outline-dark" href="{{ url_for('lista_rezervacija') }}">Reset</a></div>
+</form>
+
+<form class="row g-2 mb-4" method="post" action="{{ url_for('dodaj_rezervaciju') }}">
+    <div class="col-md-2">
+        <select class="form-select" name="id_usluge" required>
+            <option value="" selected disabled>Usluga…</option>
+            {% for u in usluge %}
+            <option value="{{ u.id_usluge }}">{{ u.naziv_usluge }} ({{ u.trajanje }} min)</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2"><input type="date" class="form-control" name="datum" required></div>
+    <div class="col-md-2"><input type="time" class="form-control" name="vrijeme" required></div>
+    <div class="col-md-2"><input class="form-control" name="prezime" placeholder="Prezime" required></div>
+    <div class="col-md-2"><input class="form-control" name="kontakt" placeholder="Kontakt (max 20)" required></div>
+    <div class="col-md-2"><input class="form-control" name="djelatnik" placeholder="Djelatnik" required></div>
+    <div class="col-12"><input class="form-control" name="napomena" placeholder="Napomena (opcionalno)"></div>
+    <div class="col-12"><button class="btn btn-primary">Dodaj rezervaciju</button></div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usluga</th>
+            <th>Datum</th>
+            <th>Vrijeme</th>
+            <th>Prezime</th>
+            <th>Kontakt</th>
+            <th>Djelatnik</th>
+            <th>Napomena</th>
+            <th>Akcije</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in rezervacije %}
+        <tr>
+            <td>{{ r.id_rezervacije }}</td>
+            <td>{{ r.usluga.naziv_usluge }}</td>
+            <td>{{ r.datum_termina.strftime("%Y-%m-%d") }}</td>
+            <td>{{ r.vrijeme_termina.strftime("%H:%M") }}</td>
+            <td>{{ r.prezime_osobe }}</td>
+            <td>{{ r.kontakt }}</td>
+            <td>{{ r.djelatnik }}</td>
+            <td>{{ r.napomena or "" }}</td>
+            <td class="d-flex gap-2">
+                <form method="post" action="{{ url_for('obrisi_rezervaciju', id=r.id_rezervacije) }}"
+                    onsubmit="return confirm('Obrisati rezervaciju?')">
+                    <button class="btn btn-sm btn-outline-danger">Obriši</button>
+                </form>
+                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#editR{{r.id_rezervacije}}">Uredi</button>
+            </td>
+        </tr>
+        <tr class="collapse" id="editR{{r.id_rezervacije}}">
+            <td colspan="9">
+                <form class="row g-2" method="post" action="{{ url_for('azuriraj_rezervaciju', id=r.id_rezervacije) }}">
+                    <div class="col-md-2">
+                        <select class="form-select" name="id_usluge" required>
+                            {% for u in usluge %}
+                            <option value="{{ u.id_usluge }}" {% if u.id_usluge==r.usluga.id_usluge %}selected{% endif
+                                %}>{{ u.naziv_usluge }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2"><input type="date" class="form-control" name="datum"
+                            value="{{ r.datum_termina.strftime('%Y-%m-%d') }}" required></div>
+                    <div class="col-md-2"><input type="time" class="form-control" name="vrijeme"
+                            value="{{ r.vrijeme_termina.strftime('%H:%M') }}" required></div>
+                    <div class="col-md-2"><input class="form-control" name="prezime" value="{{ r.prezime_osobe }}"
+                            required></div>
+                    <div class="col-md-2"><input class="form-control" name="kontakt" value="{{ r.kontakt }}" required>
+                    </div>
+                    <div class="col-md-2"><input class="form-control" name="djelatnik" value="{{ r.djelatnik }}"
+                            required></div>
+                    <div class="col-12"><input class="form-control" name="napomena" value="{{ r.napomena or '' }}">
+                    </div>
+                    <div class="col-12"><button class="btn btn-success">Spremi</button></div>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
